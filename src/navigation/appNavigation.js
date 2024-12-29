@@ -29,11 +29,11 @@ const StackNav = () => {
                     options={
                         
                         {
-                            statusBarColor: 'blue',
+                            statusBarColor: 'white',
                             headerStyle: {
-                                backgroundColor: 'blue'
+                                backgroundColor: 'white'
                             },
-                            headerTintColor: 'white',
+                            headerTintColor: '#000',
                             headerTitleAlign: 'center',
                             headerLeft: () => {
                                 return (

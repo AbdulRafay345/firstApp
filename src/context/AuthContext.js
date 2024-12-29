@@ -226,11 +226,11 @@ export const useAuthContext = () => {
 // Updated loginUser function to accept navigation
 export const loginUser = async (email, password, dispatch, navigation) => {
   try {
-    const response = await axios.post('http://192.168.59.140:5002/login', { email, password });
+    const response = await axios.post('http://192.168.18.50:5002/login', { email, password });
 
     if (response.data.status === 'ok') {
       const { data: token } = response.data;
-      const userResponse = await axios.post('http://192.168.59.140:5002/userdata', { token });
+      const userResponse = await axios.post('http://192.168.18.50:5002/userdata', { token });
       const userData = userResponse.data.data;
 
       await AsyncStorage.setItem('token', token);

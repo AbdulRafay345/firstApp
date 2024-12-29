@@ -36,7 +36,7 @@ function Register() {
         return Alert.alert('Invalid Admin');
       }
       axios
-        .post('http://192.168.59.140:5002/register', userData)
+        .post('http://192.168.18.50:5002/register', userData)
         .then(res => {
           console.log(res.data);
           if (res.data.status == 'ok') {

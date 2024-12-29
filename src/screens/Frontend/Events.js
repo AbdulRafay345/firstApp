@@ -9,10 +9,9 @@ export default function Events({ route }) {
     const [error, setError] = useState(null);
     const isFocused = useIsFocused();
 
-    // Fetch events from the API
     const fetchItems = async () => {
         try {
-            const response = await axios.get("http://172.16.50.49:5003/get-items");
+            const response = await axios.get("http://192.168.18.50:5002/get-events");
             if (response.data.status === 'ok') {
                 setItems(response.data.items);
             } else {
@@ -33,16 +32,14 @@ export default function Events({ route }) {
         }
     }, [isFocused, route.params]);
 
-    // Loading state
     if (loading) {
         return (
             <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#6a5acd" />
+                <ActivityIndicator size="large" color="#e76f51" />
             </View>
         );
     }
 
-    // Error state
     if (error) {
         return (
             <View style={styles.errorContainer}>
@@ -51,20 +48,21 @@ export default function Events({ route }) {
         );
     }
 
-    // Display items
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Upcoming Events</Text>
+            <Text style={styles.title}>Events</Text>
             <FlatList
                 data={items}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <View style={styles.itemContainer}>
-                        <Text style={styles.itemTitle}>{item.title}</Text>
-                        <Text style={styles.itemDate}>Date: {new Date(item.date).toLocaleDateString()}</Text>
+                        <Text style={styles.itemName}>{item.title}</Text>
+                        <Text style={styles.itemDate}>{item.date}</Text>
                         <Text style={styles.itemDescription}>{item.description}</Text>
-                        <Text style={styles.itemLocation}>Location: {item.location}</Text>
-                        <Text style={styles.itemCategory}>Category: {item.category}</Text>
+                        <View style={styles.itemDetails}>
+                            <Text style={styles.itemLocation}>Location: {item.location}</Text>
+                            <Text style={styles.itemCategory}>Category: {item.category}</Text>
+                        </View>
                     </View>
                 )}
             />
@@ -73,71 +71,28 @@ export default function Events({ route }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-        backgroundColor: '#e6f7ff',
-    },
-    title: {
-        fontSize: 28,
-        fontWeight: '700',
-        marginBottom: 20,
-        color: '#2f4f4f',
-        textAlign: 'center',
-    },
+    container: { flex: 1, padding: 20, backgroundColor: '#f8f8f8' },
+    title: { fontSize: 28, fontWeight: 'bold', color: '#e76f51', marginBottom: 20, textAlign: 'center' },
     itemContainer: {
-        backgroundColor: '#fff',
-        borderRadius: 10,
-        marginBottom: 16,
-        padding: 15,
+        padding: 20,
+        marginVertical: 12,
         borderWidth: 1,
-        borderColor: '#ddd',
-        elevation: 5, // Shadow for Android
-        shadowColor: '#000', // Shadow for iOS
+        borderColor: '#ccc',
+        borderRadius: 8,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
-        shadowRadius: 5,
+        shadowRadius: 8,
+        elevation: 4,
     },
-    itemTitle: {
-        fontSize: 20,
-        fontWeight: '600',
-        color: '#333',
-        marginBottom: 8,
-    },
-    itemDate: {
-        fontSize: 16,
-        color: '#6a5acd',
-        marginBottom: 8,
-    },
-    itemDescription: {
-        fontSize: 14,
-        color: '#666',
-        marginBottom: 8,
-        lineHeight: 20,
-    },
-    itemLocation: {
-        fontSize: 14,
-        color: '#555',
-        marginBottom: 4,
-    },
-    itemCategory: {
-        fontSize: 14,
-        color: '#555',
-        marginBottom: 4,
-    },
-    loadingContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#e6f7ff',
-    },
-    errorContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#f8d7da',
-    },
-    errorText: {
-        fontSize: 16,
-        color: '#721c24',
-    },
+    itemName: { fontSize: 22, fontWeight: 'bold', color: '#333' },
+    itemDate: { fontSize: 16, color: '#e76f51', fontStyle: 'italic', marginTop: 4 },
+    itemDescription: { fontSize: 16, color: '#555', marginTop: 8 },
+    itemDetails: { marginTop: 12 },
+    itemLocation: { fontSize: 14, color: '#555' },
+    itemCategory: { fontSize: 14, color: '#555' },
+    loadingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    errorContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+    errorText: { color: 'red', fontSize: 16, textAlign: 'center' },
 });
